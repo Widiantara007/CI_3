@@ -3,7 +3,10 @@ class Welcome extends CI_Controller{
 
 	public function index(){
 		$data['mahasiswa'] = $this->M_mahasiswa->read_data()->result();
-		$this->load->view('welcome_message',$data);
+		
+		$this->load->view('template/header');
+        $this->load->view('welcome_message',$data);
+        $this->load->view('template/footer');
 	}
 
 	public function aksi_tambah(){
@@ -36,7 +39,10 @@ class Welcome extends CI_Controller{
         $where = array('id' => $id);
         $data['mahasiswa'] = $this->M_mahasiswa->edit_data($where,'mahasiswa')->
             result();
+		
+			$this->load->view('template/header');
 			$this->load->view('edit',$data);
+			$this->load->view('template/footer');
     }
 
 	public function aksi_update(){

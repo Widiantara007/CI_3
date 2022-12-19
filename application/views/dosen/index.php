@@ -10,6 +10,7 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
+                <th>Gambar</th>
                 <th scope="col">Nama</th>
                 <th scope="col">Nip</th>
                 <th scope="col">Alamat</th>
@@ -25,6 +26,8 @@
         <tbody>
             <tr>
                 <th><?php echo $no++ ?></th>
+                <td><img class="img-carousel" src="<?php echo base_url() ?>assets/gambar/<?= $d->gambar; ?>" alt=""
+                        width="70"></td>
                 <td><?php echo $d->nama ?></th>
                 <td><?php echo $d->nip ?></th>
                 <td><?php echo $d->alamat ?></th>
@@ -50,22 +53,26 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="<?php echo base_url(). 'Dosen/aksi_tambah'; ?>" method="post">
-                        <div class="mb-3">
-                            <label class="form-label">Nama</label>
-                            <input type="text" name="nama" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">NIP</label>
-                            <input type="text" name="nip" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Alamat</label>
-                            <input type="text" name="alamat" class="form-control">
-                        </div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                    <?php echo form_open_multipart('Dosen/aksi_tambah'); ?>
+                    <div class="mb-3">
+                        <label class="form-label">Nama</label>
+                        <input type="text" name="nama" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">NIP</label>
+                        <input type="text" name="nip" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Alamat</label>
+                        <input type="text" name="alamat" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Gambar</label>
+                        <input type="file" name="gambar" class="form-control">
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <?php echo form_close(); ?>
                 </div>
             </div>
         </div>
