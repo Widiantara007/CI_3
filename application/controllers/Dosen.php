@@ -62,51 +62,31 @@ class Dosen extends CI_Controller{
    }
 
    public function aksi_update(){
-    $id             =$this->input->post('id');
-    
+        $id         =$this->input->post('id');
+        $nama      =$this->input->post('nama');
+        $nip      =$this->input->post('nip');
+        $alamat      =$this->input->post('alamat');
+        $gambar      =$_FILES['gambar'];
+        if($gambar = ''){}else{
+            $config['upload_path'] = './assets/gambar';
+            $config['allowed_types'] = 'jpg|png';
 
-    if($gambar = ''){}else{
-        $config['upload_path'] = './assets/gambar';
-        $config['allowed_types'] = 'jpg|png';
-
-        $this->load->library('upload',$config);
-        if(!$this->upload->do_upload('gambar')){
-            $nama           = $this->input->post('nama');
-            $nip            = $this->input->post('nip');
-            $alamat         = $this->input->post('alamat');
-            $data = array(
-                'nama'          =>$nama,
-                'nip'           =>$nip,
-                'alamat'        =>$alamat
-            );
-            $this->db->where('id', $id);
-            $this->db->update('tb_dosen',$data);
-            $this->session->set_flashdata('input','<div class="alert alert-success text-center" role="alert">
-            Data Berhasil Ditambah!
-            </div>');
-            
-            redirect('Dosen/index');
-        }else{
-            $gambar=$this->upload->data('file_name');
-            $gambar         = $this->input->post('gambar');
-            $nama           = $this->input->post('nama');
-            $nip            = $this->input->post('nip');
-            $alamat         = $this->input->post('alamat');
-            $data = array(
-                'gambar'        =>$gambar,
-                'nama'          =>$nama,
-                'nip'           =>$nip,
-                'alamat'        =>$alamat
-            );
-            $this->db->where('id', $id);
-            $this->db->update('tb_dosen',$data);
-            $this->session->set_flashdata('input','<div class="alert alert-success text-center" role="alert">
-            Data Berhasil Ditambah!
-            </div>');
-            
-            redirect('Dosen/index');
+            $this->load->library('upload',$config);
+            if(!$this->upload->do_upload('gambar')){
+                echo "Upload Gagal"; 
+            }else{
+                $gambar=$this->upload->data('file_name');
+            }
         }
-    }
 
+        $data = array(
+        'nama' =>$nama,
+        'nip' =>$nip,
+        'alamat' =>$alamat,
+        'gambar' =>$gambar     
+        );
+        $this->db->where("id", $id);
+        $this->db->update('tb_dosen', $data);
+        redirect('Dosen/index');
    }
 }
