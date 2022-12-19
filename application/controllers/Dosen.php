@@ -61,32 +61,53 @@ class Dosen extends CI_Controller{
         $this->load->view('template/footer');
    }
 
-   public function aksi_update(){
-        $id         =$this->input->post('id');
-        $nama      =$this->input->post('nama');
-        $nip      =$this->input->post('nip');
-        $alamat      =$this->input->post('alamat');
-        $gambar      =$_FILES['gambar'];
-        if($gambar = ''){}else{
-            $config['upload_path'] = './assets/gambar';
-            $config['allowed_types'] = 'jpg|png';
-
-            $this->load->library('upload',$config);
-            if(!$this->upload->do_upload('gambar')){
-                echo "Upload Gagal"; 
-            }else{
-                $gambar=$this->upload->data('file_name');
-            }
-        }
-
+   public function aksi_update()
+   {
+    
+        $id = $this->input->post('id');
+       // Load the upload library and set the preferences
+       $config['upload_path'] = './assets/gambar';
+       $config['allowed_types'] = 'gif|jpg|png';
+       $this->load->library('upload', $config);
+    
+       // If the upload fails, display an error message
+       if(!$this->upload->do_upload('gambar')){
+        $nama = $this->input->post('nama');
+        $nip = $this->input->post('nip');
+        $alamat = $this->input->post('alamat'); 
         $data = array(
-        'nama' =>$nama,
-        'nip' =>$nip,
-        'alamat' =>$alamat,
-        'gambar' =>$gambar     
+            'nama' => $nama,
+            'nip' => $nip,
+            'alamat' => $alamat
         );
-        $this->db->where("id", $id);
+        $this->db->where('id', $id);
         $this->db->update('tb_dosen', $data);
+ 
+        // Redirect or display a success message
         redirect('Dosen/index');
+       }
+       else
+       {
+           // Get the data from the form
+           $nama = $this->input->post('nama');
+           $nip = $this->input->post('nip');
+           $alamat = $this->input->post('alamat');
+           $gambar = $this->upload->data();
+           $gambar = $gambar['file_name'];
+    
+           // Update the name and image path in the database
+           $data = array(
+               'nama' => $nama,
+               'nip' => $nip,
+               'alamat' => $alamat,
+               'gambar' => $gambar
+           );
+           $this->db->where('id', $id);
+           $this->db->update('tb_dosen', $data);
+    
+           // Redirect or display a success message
+           redirect('Dosen/index');
+       }
    }
+   
 }

@@ -16,15 +16,5 @@ class M_dosen extends CI_Model{
 
     public function edit_data($where, $table){
         return $this->db->get_where($table, $where);
-    }
-
-    public function update($file_name)
-    {
-        $data = array(
-            'image' => $file_name
-        );
-        $this->db->where('id');
-        $this->db->update('images', $data);
-    }
-    
+    }    
 }
